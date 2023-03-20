@@ -21,6 +21,12 @@ jupyter:
 ```{python}
 import os
 
+# Note that we are setting the maximum bytes to 5 TERABYTES
+# which--if reached--is $25 a query. We shouldn't reach it,
+# but because the bigquery tables are clustered on project name,
+# bigquery can't accurate estimate the bytes billed before running
+# the query. In practice, it should be at most 10s of gigabytes.
+# TODO: we should copy out the pypi data for repos we are interested in
 os.environ["PIPELINE_WAREHOUSE_URI"] = "bigquery://tidyverse-pipeline?maximum_bytes_billed=5525000000000"
 
 from siuba import *
